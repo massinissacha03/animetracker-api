@@ -1,0 +1,76 @@
+2026-03-31 20:46:58.389279+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\0099\\+061100\\+0865c9\\0087\\+08cf57\\+10d89e]S\\00fd\\00d7\\+0978d6\\+0ddf01\\+0d2b6... (28)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\0099\\+061100\\+0865c9\\0087\\+08cf57\\+10d89e]S\\00fd\\00d7\\+0978d6\\+0ddf01\\+0d2b6... (28)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:52:01.216692+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\0091\\+09729c!\\009a\\+01b9baj\\+08661a\\00a2\\0008C\\0016\\+0e6c7f~\\00e6\\001f\\0008\\... (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\0091\\+09729c!\\009a\\+01b9baj\\+08661a\\00a2\\0008C\\0016\\+0e6c7f~\\00e6\\001f\\0008\\... (22)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:52:02.319291+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\+0690e4\\+04efc3\\00e9\\+0412ef\\00a7q\\+0682d9\\00d4\\+061ccf\\\\\\0007@\\+062543\\+08f... (29)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\+0690e4\\+04efc3\\00e9\\+0412ef\\00a7q\\+0682d9\\00d4\\+061ccf\\\\\\0007@\\+062543\\+08f... (29)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:52:45.829785+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\+0690e4\\+04efc3\\00e9\\+0412ef\\00a7q\\+0682d9\\00d4\\+061ccf\\\\\\0007@\\+062543\\+08f... (29)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\+0690e4\\+04efc3\\00e9\\+0412ef\\00a7q\\+0682d9\\00d4\\+061ccf\\\\\\0007@\\+062543\\+08f... (29)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:53:38.694779+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "'-3.63192788864737e+16' (21)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "'-3.63192788864737e+16' (21)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:53:38.737144+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "'-3.63192788864737e+16' (21)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "'-3.63192788864737e+16' (21)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:53:39.909518+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\00ea\\00bb \\0080P\\00e3\\+035e9d\\+055486\\+01450ct\\00fb\\00888\\+02c921\\00e7\\0095\\... (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\00ea\\00bb \\0080P\\00e3\\+035e9d\\+055486\\+01450ct\\00fb\\00888\\+02c921\\00e7\\0095\\... (22)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:55:59.647369+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'>\\00c4\\008b\\00a5\\0085\\+0fdabe\\+084e7d`?\\+0bb140\\+0b183e\\+1049b5\\00c9p<\\+0608e... (27)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'>\\00c4\\008b\\00a5\\0085\\+0fdabe\\+084e7d`?\\+0bb140\\+0b183e\\+1049b5\\00c9p<\\+0608e... (27)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:55:59.688137+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\00de`\\00f7\\\\\\+050260\\001d\\00a8\\001f<\\000ds\\001b\\00c1\\+04ff30\\001d\\00be[\\e493... (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\00de`\\00f7\\\\\\+050260\\001d\\00a8\\001f<\\000ds\\001b\\00c1\\+04ff30\\001d\\00be[\\e493... (22)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:56:00.047102+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\0090\\+0cec71jQ\\+02c8b5\\+039eb8\\+039da2&\\0013\\0000\\+0405b3\\00a4K{\\+02fa62\\001... (27)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\0090\\+0cec71jQ\\+02c8b5\\+039eb8\\+039da2&\\0013\\0000\\+0405b3\\00a4K{\\+02fa62\\001... (27)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:56:02.306711+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\00ab\\+02245c\\001b\\0080\\000a\\00a7\\0011\\00eaZ\\+0f8aeb\\00a7\\+0d402c\\+0ba7eb\\00b... (25)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\00ab\\+02245c\\001b\\0080\\000a\\00a7\\0011\\00eaZ\\+0f8aeb\\00a7\\+0d402c\\+0ba7eb\\00b... (25)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:58:14.501192+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'[X\\00a2\\+076657\\0009\\00c8\\00e9Q\\+0f81bf\\+050011\\00ad\\008e\\+0e7da8\\00d1\\00b0""\\... (23)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'[X\\00a2\\+076657\\0009\\00c8\\00e9Q\\+0f81bf\\+050011\\00ad\\008e\\+0e7da8\\00d1\\00b0""\\... (23)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:58:15.426329+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'j\\+0ff79d\\0086FK\\00fe\\00c4*\\0084\\00f1\\+01ffd0\\+0f6e5a^\\00800\\+0b4692\\0090\\00f... (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'j\\+0ff79d\\0086FK\\00fe\\00c4*\\0084\\00f1\\+01ffd0\\+0f6e5a^\\00800\\+0b4692\\0090\\00f... (22)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 20:59:35.530668+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\0006\\0095{\\+0eea40\\00d0\\+0e2329\\00b4\\00f8\\00f8\\00f4\\0003\\00f0\\00b2N\\1b76\\+0e... (24)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\0006\\0095{\\+0eea40\\00d0\\+0e2329\\00b4\\00f8\\00f8\\00f4\\0003\\00f0\\00b2N\\1b76\\+0e... (24)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:59:36.206281+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\+059d71g-\\0015?P\\00e0\\+0ec9c1\\000f\\00de5\\00b7d?\\00d4\\+07ae22hS\\00c7' (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\+059d71g-\\0015?P\\00e0\\+0ec9c1\\000f\\00de5\\00b7d?\\00d4\\+07ae22hS\\00c7' (22)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 20:59:36.707401+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\4a3e\\00a5\\00c7\\+09a349\\00a0Y$Gk\\0012\\0089\\+0922f2n\\+10c3c9l\\00f0*\\001eD' (22)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\4a3e\\00a5\\00c7\\+09a349\\00a0Y$Gk\\0012\\0089\\+0922f2n\\+10c3c9l\\00f0*\\001eD' (22)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 21:01:54.550929+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\0095\\+067a72\\008b\\00cc\\+084457\\0003>\\00ee\\+080f6a\\+0c0130\\00b8\\+0f5a69\\+016e... (26)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\0095\\+067a72\\008b\\00cc\\+084457\\0003>\\00ee\\+080f6a\\+0c0130\\00b8\\+0f5a69\\+016e... (26)"; SQL statement:
+insert into anime (age_min,annee_sortie,created_at,description,episodes,genre,image_url,mal_score,season,status,studio,title,id) values (?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-240]
+2026-03-31 21:04:27.609062+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "U&'\\00a8\\008e\\00c8\\00a4Nlx\\+09b559H$\\001e\\+02bc5c=\\+0b3220\\0018\\00b2,N\\+01b38b\\+... (25)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "U&'\\00a8\\008e\\00c8\\00a4Nlx\\+09b559H$\\001e\\+02bc5c=\\+0b3220\\0018\\00b2,N\\+01b38b\\+... (25)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]
+2026-03-31 21:04:28.432873+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "STATUS CHARACTER VARYING(20)": "'-1.1125369292536007e-308' (24)"
+Value too long for column "STATUS CHARACTER VARYING(20)": "'-1.1125369292536007e-308' (24)"; SQL statement:
+update anime set age_min=?,annee_sortie=?,description=?,episodes=?,genre=?,image_url=?,mal_score=?,season=?,status=?,studio=?,title=? where id=? [22001-240]

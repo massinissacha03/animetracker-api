@@ -1,0 +1,832 @@
+openapi: 3.1.0
+
+info:
+  title: AnimeTracker API
+  version: 1.0.0
+  description: |
+    API REST pour gérer une collection d'animes avec authentification JWT.
+    
+    **Fonctionnalités principales :**
+    - Authentification JWT avec rôles USER et ADMIN
+    - Gestion des animes (CRUD)
+    - Gestion des utilisateurs
+    - Gestion des listes personnelles d'animes
+    
+    **Permissions :**
+    - GET /api/animes/** : Public (accessible sans authentification)
+    - POST/PUT/DELETE /api/animes/** : ADMIN uniquement
+    - Autres endpoints : Authentification requise
+
+servers:
+  - url: http://localhost:8080
+    description: Serveur de développement local
+
+tags:
+  - name: Auth
+    description: Endpoints d'authentification (inscription, connexion)
+  - name: Animes
+    description: Gestion des animes
+  - name: Users
+    description: Gestion des utilisateurs
+  - name: UserAnimes
+    description: Gestion des listes personnelles d'animes
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Inscription d'un nouvel utilisateur
+      description: Crée un nouveau compte utilisateur avec rôle USER ou ADMIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            examples:
+              user:
+                summary: Inscription USER
+                value:
+                  username: "alice"
+                  email: "alice@example.com"
+                  password: "password123"
+                  role: "USER"
+              admin:
+                summary: Inscription ADMIN
+                value:
+                  username: "admin"
+                  email: "admin@example.com"
+                  password: "admin123"
+                  role: "ADMIN"
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Utilisateur créé avec succès"
+                  username:
+                    type: string
+                    example: "alice"
+                  role:
+                    type: string
+                    example: "USER"
+        '400':
+          description: Erreur de validation ou utilisateur existant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: JSON invalide ou malformé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Connexion utilisateur
+      description: Authentifie l'utilisateur et retourne un token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Erreur de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Identifiants invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/animes:
+    get:
+      tags:
+        - Animes
+      summary: Liste tous les animes
+      description: Récupère la liste complète des animes (endpoint public)
+      responses:
+        '200':
+          description: Liste des animes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Anime'
+    
+    post:
+      tags:
+        - Animes
+      summary: Créer un nouvel anime
+      description: Crée un nouvel anime (réservé aux ADMIN)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnimeDTO'
+      responses:
+        '200':
+          description: Anime créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anime'
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Token JWT manquant ou invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Permission refusée (nécessite rôle ADMIN) ou authentification manquante
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/html:
+              schema:
+                type: string
+                example: ""
+        '404':
+          description: Corps de requête manquant ou JSON invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/animes/{id}:
+    get:
+      tags:
+        - Animes
+      summary: Récupérer un anime par ID
+      description: Récupère les détails d'un anime spécifique (endpoint public)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID de l'anime
+      responses:
+        '200':
+          description: Détails de l'anime
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anime'
+        '404':
+          description: Anime introuvable ou ID invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/html:
+              schema:
+                type: string
+    
+    put:
+      tags:
+        - Animes
+      summary: Modifier un anime
+      description: Modifie un anime existant (réservé aux ADMIN)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnimeDTO'
+      responses:
+        '200':
+          description: Anime modifié avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anime'
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Token JWT manquant ou invalide
+        '403':
+          description: Permission refusée ou authentification manquante
+        '404':
+          description: Anime introuvable
+    
+    delete:
+      tags:
+        - Animes
+      summary: Supprimer un anime
+      description: Supprime un anime (réservé aux ADMIN)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Anime supprimé avec succès (variante)
+        '204':
+          description: Anime supprimé avec succès
+        '401':
+          description: Token JWT manquant ou invalide
+        '403':
+          description: Permission refusée ou authentification manquante
+        '404':
+          description: Anime introuvable
+
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Liste tous les utilisateurs
+      description: Récupère la liste des utilisateurs (authentification requise)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Liste des utilisateurs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    
+    post:
+      tags:
+        - Users
+      summary: Créer un utilisateur
+      description: Crée un nouvel utilisateur (ADMIN uniquement)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+      responses:
+        '200':
+          description: Utilisateur créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Récupérer un utilisateur par ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Détails de l'utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Utilisateur introuvable
+    
+    put:
+      tags:
+        - Users
+      summary: Modifier un utilisateur
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+      responses:
+        '200':
+          description: Utilisateur modifié
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    
+    delete:
+      tags:
+        - Users
+      summary: Supprimer un utilisateur
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Utilisateur supprimé
+        '404':
+          description: Utilisateur introuvable
+
+  /api/user-animes:
+    get:
+      tags:
+        - UserAnimes
+      summary: Liste des animes de l'utilisateur
+      description: Récupère la liste personnelle d'animes
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Liste des animes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserAnime'
+    
+    post:
+      tags:
+        - UserAnimes
+      summary: Ajouter un anime à sa liste
+      description: Ajoute un anime à la liste personnelle
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAnimeDTO'
+      responses:
+        '200':
+          description: Anime ajouté à la liste
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnime'
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/user-animes/{id}:
+    get:
+      tags:
+        - UserAnimes
+      summary: Récupérer un UserAnime par ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Détails du UserAnime
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnime'
+        '404':
+          description: UserAnime introuvable
+    
+    put:
+      tags:
+        - UserAnimes
+      summary: Modifier un UserAnime
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAnimeDTO'
+      responses:
+        '200':
+          description: UserAnime modifié
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnime'
+    
+    delete:
+      tags:
+        - UserAnimes
+      summary: Retirer un anime de sa liste
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Anime retiré de la liste
+        '404':
+          description: UserAnime introuvable
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Authentification JWT. Format: `Bearer <token>`
+        
+        Pour obtenir un token:
+        1. Inscrivez-vous via POST /auth/register
+        2. Connectez-vous via POST /auth/login
+        3. Utilisez le token retourné dans le header Authorization
+
+  schemas:
+    # DTOs
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: "alice"
+        email:
+          type: string
+          format: email
+          maxLength: 100
+          example: "alice@example.com"
+        password:
+          type: string
+          minLength: 6
+          example: "password123"
+        role:
+          type: string
+          enum: [USER, ADMIN]
+          example: "USER"
+          description: Optionnel, par défaut USER
+
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "alice"
+        password:
+          type: string
+          example: "password123"
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGljZSIsInJvbGUiOiJVU0VSIn0..."
+        username:
+          type: string
+          example: "alice"
+        role:
+          type: string
+          example: "USER"
+
+    AnimeDTO:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "One Piece"
+        description:
+          type: string
+          maxLength: 5000
+          example: "Luffy part à l'aventure pour devenir le Roi des Pirates"
+        episodes:
+          type: integer
+          minimum: 1
+          example: 1100
+        anneeSortie:
+          type: integer
+          minimum: 1900
+          maximum: 2100
+          example: 1999
+        genre:
+          type: ["string", "null"]
+          maxLength: 100
+          example: "Action, Adventure, Shounen"
+        studio:
+          type: ["string", "null"]
+          maxLength: 100
+          example: "Toei Animation"
+        status:
+          type: ["string", "null"]
+          maxLength: 20
+          example: "AIRING"
+        ageMin:
+          type: integer
+          minimum: 0
+          maximum: 18
+          example: 13
+
+    UserDTO:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: "bob"
+        email:
+          type: string
+          format: email
+          maxLength: 100
+          example: "bob@example.com"
+        password:
+          type: string
+          minLength: 6
+          example: "password123"
+        bio:
+          type: string
+          maxLength: 500
+          example: "Passionné d'animes depuis 10 ans"
+        age:
+          type: integer
+          minimum: 1
+          maximum: 150
+          example: 25
+
+    UserAnimeDTO:
+      type: object
+      required:
+        - userId
+        - animeId
+        - watchStatus
+      properties:
+        userId:
+          type: integer
+          format: int64
+          example: 1
+        animeId:
+          type: integer
+          format: int64
+          example: 2
+        watchStatus:
+          type: string
+          maxLength: 20
+          example: "WATCHING"
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 9
+        epActuel:
+          type: integer
+          minimum: 0
+          example: 45
+        isFavorite:
+          type: boolean
+          example: true
+        review:
+          type: string
+          maxLength: 2000
+          example: "Un chef d'œuvre absolu!"
+
+    # Entités
+    Anime:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: "One Piece"
+        description:
+          type: ["string", "null"]
+          example: "Luffy part à l'aventure pour devenir le Roi des Pirates"
+        episodes:
+          type: ["integer", "null"]
+          example: 1100
+        anneeSortie:
+          type: ["integer", "null"]
+          example: 1999
+        season:
+          type: ["string", "null"]
+          example: null
+        genre:
+          type: ["string", "null"]
+          example: "Action, Adventure, Shounen"
+        studio:
+          type: ["string", "null"]
+          example: "Toei Animation"
+        status:
+          type: ["string", "null"]
+          example: "AIRING"
+        ageMin:
+          type: ["integer", "null"]
+          example: 13
+        imageUrl:
+          type: ["string", "null"]
+          example: null
+        malScore:
+          type: ["number", "null"]
+          format: double
+          example: null
+        createdAt:
+          type: string
+          example: "2026-03-26T21:22:05.126445"
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: "alice"
+        email:
+          type: string
+          example: "alice@example.com"
+        password:
+          type: string
+          example: "$2a$10$..."
+          description: Mot de passe hashé (BCrypt)
+        role:
+          type: string
+          example: "USER"
+        bio:
+          type: string
+          nullable: true
+          example: "Passionné d'animes"
+        age:
+          type: integer
+          nullable: true
+          example: 25
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-03-26T20:00:00"
+
+    UserAnime:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        user:
+          $ref: '#/components/schemas/User'
+        anime:
+          $ref: '#/components/schemas/Anime'
+        watchStatus:
+          type: string
+          example: "WATCHING"
+        rating:
+          type: integer
+          nullable: true
+          example: 9
+        epActuel:
+          type: integer
+          nullable: true
+          example: 45
+        isFavorite:
+          type: boolean
+          example: true
+        review:
+          type: string
+          nullable: true
+          example: "Excellent anime!"
+
+    # Erreurs
+    Error:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: integer
+        message:
+          type: string
+        details:
+          type: string
+
+    ValidationError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Erreur de validation"
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            title: "Le titre est obligatoire"
+            episodes: "doit être supérieur ou égal à 1"
